@@ -50,7 +50,4 @@ public class Deposit implements Serializable {
     public void setPrice(long price) {
         this.price = price;
     }
-    
-    
-
 }

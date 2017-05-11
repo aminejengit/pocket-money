@@ -1,5 +1,8 @@
+pm\service\DepositTypeService.class
+pm\model\DepositType.class
+pm\service\DepositTypeServiceImpl.class
+pm\Application.class
+pm\repository\DepositTypeRepository.class
 pm\controller\IndexController.class
 pm\model\Deposit.class
-pm\model\DepositType.class
-pm\Application.class
 pm\controller\DepositController.class

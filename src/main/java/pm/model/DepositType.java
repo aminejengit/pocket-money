@@ -7,13 +7,18 @@
 package pm.model;
 
 import java.io.Serializable;
+import javax.persistence.Entity;
+import org.springframework.data.annotation.Id;
 
 /**
  * 
  * @author Amine Jendoubi 
  */
+@Entity
 public class DepositType implements Serializable{
     private static final long serialVersionUID = 1L;
+    
+    @Id
     private long id;
     private String name;
 
