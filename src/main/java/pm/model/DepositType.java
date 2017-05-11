@@ -8,7 +8,9 @@ package pm.model;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
-import org.springframework.data.annotation.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 
 /**
  * 
@@ -19,6 +21,7 @@ public class DepositType implements Serializable{
     private static final long serialVersionUID = 1L;
     
     @Id
+    @GeneratedValue
     private long id;
     private String name;
 
