@@ -22,27 +22,27 @@ public class DepositController {
     @Autowired
     private DepositTypeService depositTypeService;
 
-    @RequestMapping("/deposit-types")
+    @RequestMapping("/private/deposit-types")
     public List<DepositType> getDeposits() {
         return depositTypeService.getDeposits();
     }
 
-    @RequestMapping("/deposit-types/{id}")
+    @RequestMapping("/private/deposit-types/{id}")
     public DepositType getDeposits(@PathVariable("id") long id) {
         return depositTypeService.getDepositType(id);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/deposit-types")
+    @RequestMapping(method = RequestMethod.POST, value = "/private/deposit-types")
     public void addDepositType(@RequestBody DepositType depositType) {
         depositTypeService.addDepoistType(depositType);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/deposit-types")
+    @RequestMapping(method = RequestMethod.PUT, value = "/private/deposit-types")
     public void updateDepositType(@RequestBody DepositType depositType) {
         depositTypeService.updateDepoistType(depositType);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/deposit-types/{id}")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/private/deposit-types/{id}")
     public void updateDepositType(@PathVariable("id") long id) {
         depositTypeService.deleteDepositType(id);
     }

@@ -5,6 +5,7 @@
  */
 package pm.controller;
 
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -18,5 +19,10 @@ public class IndexController {
     @RequestMapping("/")
     public String index() {
         return "home.html";
+    }
+    
+    @RequestMapping("/private")
+    public String privateArea() {
+        return "private";
     }
 }

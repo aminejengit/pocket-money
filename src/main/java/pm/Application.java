@@ -5,39 +5,55 @@ package pm;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
-
+import pm.service.CustomUserDetails;
 import java.util.Arrays;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import pm.model.Role;
+import pm.model.User;
+import pm.repository.UserRepository;
+import pm.service.UserService;
 
 @SpringBootApplication
-@EnableResourceServer
 public class Application {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
 
-    @Bean
-    public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
-        return args -> {
-
-            System.out.println("Let's inspect the beans provided by Spring Boot:");
-
-            String[] beanNames = ctx.getBeanDefinitionNames();
-            Arrays.sort(beanNames);
-            for (String beanName : beanNames) {
-                System.out.println(beanName);
-            }
-
-        };
+    /**
+     * Password grants are switched on by injecting an AuthenticationManager.
+     * Here, we setup the builder so that the userDetailsService is the one we
+     * coded.
+     *
+     * @param builder
+     * @param repository
+     * @throws Exception
+     */
+    @Autowired
+    public void authenticationManager(AuthenticationManagerBuilder builder, UserRepository repository, UserService service) throws Exception {
+        //Setup a default user if db is empty
+        if (repository.count() == 0) {
+            service.save(new User("user", "password", Arrays.asList(new Role("USER"), new Role("ACTUATOR"))));
+        }
+        builder.userDetailsService(userDetailsService(repository)).passwordEncoder(passwordEncoder);
     }
 
+    /**
+     * We return an istance of our CustomUserDetails.
+     *
+     * @param repository
+     * @return
+     */
+    private UserDetailsService userDetailsService(final UserRepository repository) {
+        return username -> new CustomUserDetails(repository.findByUsername(username));
+    }
 }

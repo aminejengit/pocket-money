@@ -1,10 +1,40 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <title>pocket money</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
     <body>
-        <h1>Pocket Money Application</h1>
+
+        <div ng-app="pm" ng-controller="homeCtrl">
+            username<input ng-model="user.username"/>
+            <br/>
+            password<input type="password" ng-model="user.password"/>
+            <button ng-click="save()">save</button>
+            <br/>
+            {{successMsg}}
+        </div>
+
+        <script>
+            angular.module("pm", []);
+            angular.module("pm")
+                    .controller("homeCtrl", function ($scope, dataService) {
+                        $scope.user = {};
+                        $scope.save = function () {
+                            dataService.saveUser($scope.user)
+                                    .then(function (response) {
+                                        $scope.successMsg = response.data + "user " + $scope.user.username + " is resgitred!"
+                                    });
+                        }
+                    });
+            angular.module("pm")
+                    .service("dataService", function ($http, $log, $q) {
+                        $service = this;
+                        $service.saveUser = function (user) {
+                            return $http.post("/users", {
+                                username1: user.username,
+                                password: user.password
+                            })
+                        }
+                    });
+        </script>
+
     </body>
 </html>
