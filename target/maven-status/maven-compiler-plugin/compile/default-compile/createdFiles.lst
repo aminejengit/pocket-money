@@ -1,8 +1,12 @@
-pm\service\DepositTypeService.class
 pm\model\DepositType.class
+pm\model\Deposit.class
+pm\model\User.class
+pm\repository\UserRepository.class
+pm\service\DepositTypeService.class
 pm\service\DepositTypeServiceImpl.class
 pm\Application.class
+pm\service\UserService.class
 pm\repository\DepositTypeRepository.class
 pm\controller\IndexController.class
-pm\model\Deposit.class
 pm\controller\DepositController.class
+pm\OAuth2Config.class
