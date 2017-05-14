@@ -8,6 +8,7 @@
             <br/>
             password<input type="password" ng-model="user.password"/>
             <button ng-click="save()">save</button>
+            <button ng-click="login()">login</button>
             <br/>
             {{successMsg}}
         </div>
@@ -23,15 +24,40 @@
                                         $scope.successMsg = response.data + "user " + $scope.user.username + " is resgitred!"
                                     });
                         }
+                        $scope.login = function () {
+                            dataService.login($scope.user.username, $scope.user.password).then(function (data) {
+                                console.log(data.token);
+                            })
+
+
+                        }
                     });
             angular.module("pm")
                     .service("dataService", function ($http, $log, $q) {
                         $service = this;
+
+
                         $service.saveUser = function (user) {
-                            return $http.post("/users", {
-                                username1: user.username,
+                            return $http.post("/users?access_token=39ea2121-511b-43cf-ac59-45e28aed7bc8", {
+                                username: user.username,
                                 password: user.password
                             })
+                        }
+                        $service.login = function (username, password) {
+                            var config = {
+                                headers: {
+                                    "Authorization": "Basic bXktdHJ1c3RlZC1jbGllbnQ6c2VjcmV0"
+                                }
+                            }
+                            var deferred = $q.defer();
+                            $http.post('http://localhost:8081/oauth/token?grant_type=password&username=' + username + '&password=' + password, {}, config)
+                                    .then(function (response) {
+                                        console.log(response);
+                                        deferred.resolve({
+                                            token: response.data.access_token
+                                        });
+                                    });
+                            return deferred.promise;
                         }
                     });
         </script>
