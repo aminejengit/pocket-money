@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import pm.model.User;
 import pm.service.UserService;
+import pm.util.StatusMessage;
 
 /**
  *
@@ -24,7 +25,12 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/users")
-    public void addDepositType(@RequestBody User user) {
+    public StatusMessage userSave(@RequestBody User user) {
+        try{
         userService.save(user);
+        }catch(Exception ex){
+            return new StatusMessage(false,ex.getMessage());
+        }
+        return new StatusMessage(true);
     }
 }

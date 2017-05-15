@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package pm;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +16,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 
 /**
- * 
- * @author Amine Jendoubi 
+ *
+ * @author Amine Jendoubi
  */
 @Configuration
 @EnableAuthorizationServer
@@ -31,8 +30,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private PasswordEncoder passwordEncoder;
 
     /**
-     * Setting up the endpointsconfigurer authentication manager.
-     * The AuthorizationServerEndpointsConfigurer defines the authorization and token endpoints and the token services.
+     * Setting up the endpointsconfigurer authentication manager. The
+     * AuthorizationServerEndpointsConfigurer defines the authorization and
+     * token endpoints and the token services.
+     *
      * @param endpoints
      * @throws Exception
      */
@@ -42,7 +43,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
     /**
-     * Setting up the clients with a clientId, a clientSecret, a scope, the grant types and the authorities.
+     * Setting up the clients with a clientId, a clientSecret, a scope, the
+     * grant types and the authorities.
+     *
      * @param clients
      * @throws Exception
      */
@@ -50,14 +53,15 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory().withClient("my-trusted-client")
                 .authorizedGrantTypes("client_credentials", "password")
-                .authorities("ROLE_CLIENT","ROLE_TRUSTED_CLIENT").scopes("read","write","trust")
+                .authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT").scopes("read", "write", "trust")
                 .resourceIds("oauth2-resource").accessTokenValiditySeconds(5000)
                 .secret("secret");
     }
 
     /**
-     * We here defines the security constraints on the token endpoint.
-     * We set it up to isAuthenticated, which returns true if the user is not anonymous
+     * We here defines the security constraints on the token endpoint. We set it
+     * up to isAuthenticated, which returns true if the user is not anonymous
+     *
      * @param security the AuthorizationServerSecurityConfigurer.
      * @throws Exception
      */
@@ -65,6 +69,5 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security.checkTokenAccess("isAuthenticated()");
     }
-
 
 }
